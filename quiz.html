@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz | Centrum Rozwoju</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2e0fc3c0c.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #353535;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #284b63;
+      color: #ffffff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #3c6e71;
+    }
+    .question {
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .answers label {
+      display: block;
+      background: #d9d9d9;
+      padding: 0.8rem;
+      border-radius: 6px;
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .answers label:hover {
+      background-color: #3c6e71;
+      color: #fff;
+    }
+    button {
+      background-color: #3c6e71;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    #result {
+      font-weight: bold;
+      color: #284b63;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Centrum Rozwoju</strong></div>
+    <nav>
+      <a href="index.html" style="color:white; margin-right: 1rem;">Strona główna</a>
+      <a href="quiz.html" style="color:white; font-weight: bold;">Quizy</a>
+    </nav>
+  </header>
+
+  <div class="quiz-container">
+    <h1>Quiz: Podstawy geografii</h1>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Sprawdź odpowiedzi</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Który kontynent jest największy pod względem powierzchni?",
+        answers: ["Afryka", "Ameryka Południowa", "Azja", "Europa"],
+        correct: 2
+      },
+      {
+        question: "Jakie morze znajduje się między Europą a Afryką?",
+        answers: ["Bałtyckie", "Śródziemne", "Czarne", "Arabskie"],
+        correct: 1
+      },
+      {
+        question: "W jakiej strefie klimatycznej leży większość Polski?",
+        answers: ["Równikowej", "Umiarkowanej", "Podzwrotnikowej", "Subarktycznej"],
+        correct: 1
+      },
+      {
+        question: "Który z wymienionych to ocean?",
+        answers: ["Morze Czarne", "Zatoka Meksykańska", "Ocean Spokojny", "Morze Śródziemne"],
+        correct: 2
+      },
+      {
+        question: "Jakie państwo graniczy z Polską od południa?",
+        answers: ["Litwa", "Niemcy", "Czechy", "Rosja"],
+        correct: 2
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+
+    quizData.forEach((q, i) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.classList.add("question-block");
+      questionDiv.innerHTML = `
+        <p class="question">${i + 1}. ${q.question}</p>
+        <div class="answers">
+          ${q.answers.map((a, idx) => `
+            <label><input type="radio" name="question${i}" value="${idx}"> ${a}</label>
+          `).join('')}
+        </div>
+      `;
+      quizContainer.appendChild(questionDiv);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, i) => {
+        const selected = document.querySelector(`input[name=question${i}]:checked`);
+        if (selected && parseInt(selected.value) === q.correct) {
+          score++;
+        }
+      });
+      document.getElementById("result").innerText = `Twój wynik: ${score} / ${quizData.length}`;
+    }
+  </script>
+</body>
+</html>
